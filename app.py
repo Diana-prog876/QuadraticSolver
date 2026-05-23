@@ -1,12 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 import math
-
 app = Flask(__name__)
-
 @app.route('/')
 def index():
     return render_template('index.html')
-
 @app.route('/solve', methods=['POST'])
 def solve():
     data = request.get_json()
@@ -18,16 +15,13 @@ def solve():
         method = data['method']
     except:
         return jsonify({'error': 'Введите корректные числа!'})
-    
     if a == 0:
         return jsonify({'error': 'Коэффициент a не может быть равен 0!'})
-    
     D = b**2 - 4*a*c
     steps = ''
     result = ''
     x1 = None
     x2 = None
-
     if method == 'discriminant':
         steps += f'=== Метод дискриминанта ===\n\n'
         steps += f'Уравнение: {a}x² + {b}x + {c} = 0\n\n'
@@ -84,10 +78,11 @@ def solve():
         'steps': steps,
         'x1': x1,
         'x2': x2,
-        'a': a, 'b': b, 'c': c,
-        'D': D
+        'a': a,
+        'b': b,
+        'c': c,
+        'D': D,
+        'method': method
     })
-
 if __name__ == '__main__':
     app.run(debug=True)
-    
